@@ -2,10 +2,10 @@
 """
 调取配置文件和屏幕分辨率的代码
 """
-import os
-import sys
 import json
+import os
 import re
+import sys
 
 from common.auto_adb import auto_adb
 
@@ -17,11 +17,12 @@ def open_accordant_config():
     调用配置文件
     """
     screen_size = _get_screen_size()
+    print(f"screen_size:{screen_size}")
     config_file = "{path}/config/{screen_size}/config.json".format(
         path=sys.path[0],
         screen_size=screen_size
     )
-
+    print(f"config_file:{config_file}")
     # 优先获取执行文件目录的配置文件
     here = sys.path[0]
     for file in os.listdir(here):

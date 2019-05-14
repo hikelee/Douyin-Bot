@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-import sys
-import random
-import time
-from PIL import Image
 import argparse
+import random
+import sys
+import time
+
+from PIL import Image
 
 if sys.version_info.major != 3:
     print('Please run under Python3')
@@ -72,7 +73,7 @@ def next_page():
     """
     cmd = 'shell input swipe {x1} {y1} {x2} {y2} {duration}'.format(
         x1=config['center_point']['x'],
-        y1=config['center_point']['y']+config['center_point']['ry'],
+        y1=config['center_point']['y'] + config['center_point']['ry'],
         x2=config['center_point']['x'],
         y2=config['center_point']['y'],
         duration=200
@@ -116,17 +117,18 @@ def tap(x, y):
 
 
 def auto_reply():
-
-    msg = "垆边人似月，皓腕凝霜雪。就在刚刚，我的心动了一下，小姐姐你好可爱呀_Powered_By_Python"
-
+    msg = "吾有一壶酒，一杯解千愁，尚有忘情水，一杯断情丝若想尝其味，只能择其一若想共饮之，乃是伤心人万箭穿其心，万苦无处迷吾与君共饮，解愁忘情水朗朗乾坤中，同为苦中人"
     tap(config['comment_bottom']['x'], config['comment_bottom']['y'])
     time.sleep(1)
     tap(config['comment_text']['x'], config['comment_text']['y'])
     time.sleep(1)
+
     cmd = 'shell am broadcast -a ADB_INPUT_TEXT --es msg {text}'.format(text=msg)
     adb.run(cmd)
+
     time.sleep(1)
     tap(config['comment_send']['x'], config['comment_send']['y'])
+
     time.sleep(0.5)
     cmd = 'shell input keyevent 4'
     adb.run(cmd)
@@ -141,6 +143,18 @@ def parser():
 
 
 def main():
+    while True:
+        time.sleep(1)
+        thumbs_up()
+        time.sleep(1)
+        follow_user()
+        time.sleep(1)
+        auto_reply()
+        time.sleep(3)
+        next_page()
+
+
+def main2():
     """
     main
     :return:
@@ -158,7 +172,7 @@ def main():
         time.sleep(1)
         screenshot.pull_screenshot()
 
-        resize_image('autojump.png', 'optimized.png', 1024*1024)
+        resize_image('autojump.png', 'optimized.png', 1024 * 1024)
 
         with open('optimized.png', 'rb') as bin_data:
             image_data = bin_data.read()
@@ -180,7 +194,7 @@ def main():
                     beauty=face['beauty'],
                 )
                 print(msg_log)
-                face_area = (face['x'], face['y'], face['x']+face['width'], face['y']+face['height'])
+                face_area = (face['x'], face['y'], face['x'] + face['width'], face['y'] + face['height'])
                 img = Image.open("optimized.png")
                 cropped_img = img.crop(face_area).convert('RGB')
                 cropped_img.save(FACE_PATH + face['face_id'] + '.png')
